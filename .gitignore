@@ -1,0 +1,10 @@
+.env
+studentbuddy.db
+studentbuddy_backup_*.db
+studentbuddy_data.pickle
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.DS_Store

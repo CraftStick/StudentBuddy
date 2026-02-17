@@ -1,0 +1,82 @@
+{
+  "language_name": "Svenska 🇸🇪",
+  "welcome": {
+    "hello": "Hej, {name}!",
+    "back": "Hej, {name}!\nDu är i grupp {group}. Välkommen tillbaka! 🙂",
+    "back_with_building": "Hej, {name}!\nDu är i grupp {group} ({building}). Välkommen tillbaka! 🙂",
+    "choose_building": "Vilket campus studerar du på?",
+    "enter_group": "Vilken grupp är du i?\n(Format: 1ИП-3-25)"
+  },
+  "menu": {
+    "main": "📋 <b>Huvudmeny</b>\n\n▪️ <b>📅 Schema</b> — visa schema för vald dag (Mån–Lör eller idag)\n▪️ <b>❌ Avbryt</b> — avbryt nuvarande dialog (namn/grupp)\n\nSkriv /menu för detta meddelande. Schema — knapp under hälsning eller /schedule kommando.",
+    "schedule": "📅 Schema",
+    "cancel": "❌ Avbryt",
+    "settings": "⚙️ Inställningar",
+    "notifications": "🔔 Aviseringar",
+    "change_data": "✏️ Ändra data",
+    "back": "◀️ Tillbaka",
+    "today": "Idag"
+  },
+  "buttons": {
+    "monday": "Mån",
+    "tuesday": "Tis",
+    "wednesday": "Ons",
+    "thursday": "Tor",
+    "friday": "Fre",
+    "saturday": "Lör"
+  },
+  "settings_menu": {
+    "title": "⚙️ <b>Inställningar</b>\n\nVälj vad du vill ändra:",
+    "language": "🌐 Språk",
+    "building": "🏢 Campus",
+    "group": "👥 Grupp",
+    "notifications": "🔔 Aviseringar",
+    "language_selected": "🌐 Språk ändrat till: {language}",
+    "choose_language": "🌐 Välj språk:"
+  },
+  "schedule": {
+    "choose_day": "📅 Välj veckodag:",
+    "no_group": "Ange först campus och grupp: tryck /start.",
+    "loading": "⏳ Laddar schema...",
+    "error": "⚠️ Kunde inte ladda schema. Försök igen senare.",
+    "no_lessons": "📭 Inga lektioner på {day}. Vila!",
+    "for_day": "📅 Schema för {day}:",
+    "header_group": "📅 Schema:",
+    "header_building": "📍 {building}",
+    "header_week": "🗓 Vecka:",
+    "room": "🚪 Rum {room}",
+    "teacher": "👤 {teacher}",
+    "no_data": "Inga lektioner för vald period.",
+    "replacements": "🔄 Ersättningar:",
+    "no_replacements": "✅ Inga ersättningar",
+    "lesson": "lektion",
+    "instead_of": "Istället för {from} — {to}",
+    "was": "Var: {teacher}",
+    "week_even": "Jämn vecka",
+    "week_odd": "Udda vecka"
+  },
+  "days": {
+    "monday": "Måndag",
+    "tuesday": "Tisdag",
+    "wednesday": "Onsdag",
+    "thursday": "Torsdag",
+    "friday": "Fredag",
+    "saturday": "Lördag",
+    "sunday": "Söndag"
+  },
+  "notifications": {
+    "enabled": "🔔 Aviseringar aktiverade.\nDu kommer att få påminnelser 10 minuter innan lektionen börjar.",
+    "disabled": "🔕 Aviseringar inaktiverade.\nPåminnelser 10 minuter innan lektionen skickas inte.",
+    "reminder": "⏰ Lektionen börjar om ~10 minuter:\n📚 {subject}",
+    "room": "🚪 Rum {room}",
+    "teacher": "👤 {teacher}",
+    "time": "🕐 {start} – {end}"
+  },
+  "errors": {
+    "invalid_group": "❌ Ogiltigt gruppformat!\nExempel: 1ИП-3-25\n\nFörsök igen:",
+    "no_buildings": "⚠️ Kunde inte ladda campus-lista. Försök igen senare.",
+    "group_not_found": "❌ Grupp {group} hittades inte på campus {building}.\nKontrollera stavningen eller välj ett annat campus.",
+    "wrong_building": "❌ Grupp {group} studerar på {api_building}, inte på {building}.\nVälj rätt campus eller ange en annan grupp.",
+    "unknown": "⚠️ Ett fel uppstod. Försök igen senare."
+  }
+}

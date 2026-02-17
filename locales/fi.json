@@ -1,0 +1,82 @@
+{
+  "language_name": "Suomi 🇫🇮",
+  "welcome": {
+    "hello": "Hei, {name}!",
+    "back": "Hei, {name}!\nOlet ryhmässä {group}. Tervetuloa takaisin! 🙂",
+    "back_with_building": "Hei, {name}!\nOlet ryhmässä {group} ({building}). Tervetuloa takaisin! 🙂",
+    "choose_building": "Millä kampuksella opiskelet?",
+    "enter_group": "Missä ryhmässä olet?\n(Muoto: 1ИП-3-25)"
+  },
+  "menu": {
+    "main": "📋 <b>Päävalikko</b>\n\n▪️ <b>📅 Lukujärjestys</b> — näytä lukujärjestys valitulle päivälle (Ma–La tai tänään)\n▪️ <b>❌ Peruuta</b> — peruuta nykyinen dialogi (nimi/ryhmä)\n\nKirjoita /menu tämän viestin saamiseksi. Lukujärjestys — painike tervehdyksen alla tai /schedule komento.",
+    "schedule": "📅 Lukujärjestys",
+    "cancel": "❌ Peruuta",
+    "settings": "⚙️ Asetukset",
+    "notifications": "🔔 Ilmoitukset",
+    "change_data": "✏️ Muuta tietoja",
+    "back": "◀️ Takaisin",
+    "today": "Tänään"
+  },
+  "buttons": {
+    "monday": "Ma",
+    "tuesday": "Ti",
+    "wednesday": "Ke",
+    "thursday": "To",
+    "friday": "Pe",
+    "saturday": "La"
+  },
+  "settings_menu": {
+    "title": "⚙️ <b>Asetukset</b>\n\nValitse mitä haluat muuttaa:",
+    "language": "🌐 Kieli",
+    "building": "🏢 Kampus",
+    "group": "👥 Ryhmä",
+    "notifications": "🔔 Ilmoitukset",
+    "language_selected": "🌐 Kieli vaihdettu: {language}",
+    "choose_language": "🌐 Valitse kieli:"
+  },
+  "schedule": {
+    "choose_day": "📅 Valitse viikonpäivä:",
+    "no_group": "Anna ensin kampus ja ryhmä: paina /start.",
+    "loading": "⏳ Ladataan lukujärjestystä...",
+    "error": "⚠️ Lukujärjestyksen lataaminen epäonnistui. Yritä myöhemmin uudelleen.",
+    "no_lessons": "📭 Ei oppitunteja {day}. Lepää!",
+    "for_day": "📅 Lukujärjestys päivälle {day}:",
+    "header_group": "📅 Lukujärjestys:",
+    "header_building": "📍 {building}",
+    "header_week": "🗓 Viikko:",
+    "room": "🚪 Huone {room}",
+    "teacher": "👤 {teacher}",
+    "no_data": "Ei oppitunteja valitulle ajanjaksolle.",
+    "replacements": "🔄 Korvaukset:",
+    "no_replacements": "✅ Ei korvauksia",
+    "lesson": "oppitunti",
+    "instead_of": "{from} sijaan — {to}",
+    "was": "Oli: {teacher}",
+    "week_even": "Parillinen viikko",
+    "week_odd": "Pariton viikko"
+  },
+  "days": {
+    "monday": "Maanantai",
+    "tuesday": "Tiistai",
+    "wednesday": "Keskiviikko",
+    "thursday": "Torstai",
+    "friday": "Perjantai",
+    "saturday": "Lauantai",
+    "sunday": "Sunnuntai"
+  },
+  "notifications": {
+    "enabled": "🔔 Ilmoitukset käytössä.\nSaat muistutuksia 10 minuuttia ennen tunnin alkua.",
+    "disabled": "🔕 Ilmoitukset pois käytöstä.\nMuistutuksia 10 minuuttia ennen tunnin alkua ei lähetetä.",
+    "reminder": "⏰ Tunti alkaa ~10 minuutin kuluttua:\n📚 {subject}",
+    "room": "🚪 Huone {room}",
+    "teacher": "👤 {teacher}",
+    "time": "🕐 {start} – {end}"
+  },
+  "errors": {
+    "invalid_group": "❌ Virheellinen ryhmämuoto!\nEsimerkki: 1ИП-3-25\n\nYritä uudelleen:",
+    "no_buildings": "⚠️ Kampusluettelon lataaminen epäonnistui. Yritä myöhemmin uudelleen.",
+    "group_not_found": "❌ Ryhmää {group} ei löytynyt kampukselta {building}.\nTarkista oikeinkirjoitus tai valitse toinen kampus.",
+    "wrong_building": "❌ Ryhmä {group} opiskelee kampuksella {api_building}, ei kampuksella {building}.\nValitse oikea kampus tai syötä toinen ryhmä.",
+    "unknown": "⚠️ Tapahtui virhe. Yritä myöhemmin uudelleen."
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "language_name": "Deutsch 🇩🇪",
+  "welcome": {
+    "hello": "Hallo, {name}!",
+    "back": "Hallo, {name}!\nDu bist in Gruppe {group}. Willkommen zurück! 🙂",
+    "back_with_building": "Hallo, {name}!\nDu bist in Gruppe {group} ({building}). Willkommen zurück! 🙂",
+    "choose_building": "An welchem Campus studierst du?",
+    "enter_group": "In welcher Gruppe bist du?\n(Format: 1ИП-3-25)"
+  },
+  "menu": {
+    "main": "📋 <b>Hauptmenü</b>\n\n▪️ <b>📅 Stundenplan</b> — Stundenplan für gewählten Tag anzeigen (Mo–Sa oder heute)\n▪️ <b>❌ Abbrechen</b> — aktuellen Dialog abbrechen (Name/Gruppe)\n\nSchreibe /menu für diese Nachricht. Stundenplan — Taste unter Begrüßung oder /schedule Befehl.",
+    "schedule": "📅 Stundenplan",
+    "cancel": "❌ Abbrechen",
+    "settings": "⚙️ Einstellungen",
+    "notifications": "🔔 Benachrichtigungen",
+    "change_data": "✏️ Daten ändern",
+    "back": "◀️ Zurück",
+    "today": "Heute"
+  },
+  "buttons": {
+    "monday": "Mo",
+    "tuesday": "Di",
+    "wednesday": "Mi",
+    "thursday": "Do",
+    "friday": "Fr",
+    "saturday": "Sa"
+  },
+  "settings_menu": {
+    "title": "⚙️ <b>Einstellungen</b>\n\nWähle, was du ändern möchtest:",
+    "language": "🌐 Sprache",
+    "building": "🏢 Campus",
+    "group": "👥 Gruppe",
+    "notifications": "🔔 Benachrichtigungen",
+    "language_selected": "🌐 Sprache geändert auf: {language}",
+    "choose_language": "🌐 Sprache wählen:"
+  },
+  "schedule": {
+    "choose_day": "📅 Wochentag wählen:",
+    "no_group": "Gib zuerst Campus und Gruppe an: drücke /start.",
+    "loading": "⏳ Lade Stundenplan...",
+    "error": "⚠️ Stundenplan konnte nicht geladen werden. Versuche es später noch einmal.",
+    "no_lessons": "📭 Keine Kurse am {day}. Ruhe dich aus!",
+    "for_day": "📅 Stundenplan für {day}:",
+    "header_group": "📅 Stundenplan:",
+    "header_building": "📍 {building}",
+    "header_week": "🗓 Woche:",
+    "room": "🚪 Raum {room}",
+    "teacher": "👤 {teacher}",
+    "no_data": "Keine Kurse für den gewählten Zeitraum.",
+    "replacements": "🔄 Ersetzungen:",
+    "no_replacements": "✅ Keine Ersetzungen",
+    "lesson": "Stunde",
+    "instead_of": "Statt {from} — {to}",
+    "was": "War: {teacher}",
+    "week_even": "Gerade Woche",
+    "week_odd": "Ungerade Woche"
+  },
+  "days": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag"
+  },
+  "notifications": {
+    "enabled": "🔔 Benachrichtigungen aktiviert.\nDu erhältst Erinnerungen 10 Minuten vor Kursbeginn.",
+    "disabled": "🔕 Benachrichtigungen deaktiviert.\nErinnerungen 10 Minuten vor Kursbeginn werden nicht gesendet.",
+    "reminder": "⏰ Kurs beginnt in ~10 Minuten:\n📚 {subject}",
+    "room": "🚪 Raum {room}",
+    "teacher": "👤 {teacher}",
+    "time": "🕐 {start} – {end}"
+  },
+  "errors": {
+    "invalid_group": "❌ Ungültiges Gruppenformat!\nBeispiel: 1ИП-3-25\n\nVersuche es erneut:",
+    "no_buildings": "⚠️ Campus-Liste konnte nicht geladen werden. Versuche es später noch einmal.",
+    "group_not_found": "❌ Gruppe {group} nicht am Campus {building} gefunden.\nÜberprüfe die Schreibweise oder wähle einen anderen Campus.",
+    "wrong_building": "❌ Gruppe {group} studiert am Campus {api_building}, nicht am {building}.\nWähle den richtigen Campus oder gib eine andere Gruppe ein.",
+    "unknown": "⚠️ Ein Fehler ist aufgetreten. Versuche es später noch einmal."
+  }
+}

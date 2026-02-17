@@ -1,0 +1,82 @@
+{
+  "language_name": "Norsk 🇳🇴",
+  "welcome": {
+    "hello": "Hei, {name}!",
+    "back": "Hei, {name}!\nDu er i gruppe {group}. Velkommen tilbake! 🙂",
+    "back_with_building": "Hei, {name}!\nDu er i gruppe {group} ({building}). Velkommen tilbake! 🙂",
+    "choose_building": "Hvilket campus studerer du på?",
+    "enter_group": "Hvilken gruppe er du i?\n(Format: 1ИП-3-25)"
+  },
+  "menu": {
+    "main": "📋 <b>Hovedmeny</b>\n\n▪️ <b>📅 Timeplan</b> — vis timeplan for valgt dag (Man–Lør eller i dag)\n▪️ <b>❌ Avbryt</b> — avbryt gjeldende dialog (navn/gruppe)\n\nSkriv /menu for denne meldingen. Timeplan — knapp under hilsen eller /schedule kommando.",
+    "schedule": "📅 Timeplan",
+    "cancel": "❌ Avbryt",
+    "settings": "⚙️ Innstillinger",
+    "notifications": "🔔 Varsler",
+    "change_data": "✏️ Endre data",
+    "back": "◀️ Tilbake",
+    "today": "I dag"
+  },
+  "buttons": {
+    "monday": "Man",
+    "tuesday": "Tir",
+    "wednesday": "Ons",
+    "thursday": "Tor",
+    "friday": "Fre",
+    "saturday": "Lør"
+  },
+  "settings_menu": {
+    "title": "⚙️ <b>Innstillinger</b>\n\nVelg hva du vil endre:",
+    "language": "🌐 Språk",
+    "building": "🏢 Campus",
+    "group": "👥 Gruppe",
+    "notifications": "🔔 Varsler",
+    "language_selected": "🌐 Språk endret til: {language}",
+    "choose_language": "🌐 Velg språk:"
+  },
+  "schedule": {
+    "choose_day": "📅 Velg ukedag:",
+    "no_group": "Angi først campus og gruppe: trykk /start.",
+    "loading": "⏳ Laster timeplan...",
+    "error": "⚠️ Kunne ikke laste timeplan. Prøv igjen senere.",
+    "no_lessons": "📭 Ingen timer på {day}. Hvil deg!",
+    "for_day": "📅 Timeplan for {day}:",
+    "header_group": "📅 Timeplan:",
+    "header_building": "📍 {building}",
+    "header_week": "🗓 Uke:",
+    "room": "🚪 Rom {room}",
+    "teacher": "👤 {teacher}",
+    "no_data": "Ingen timer for valgt periode.",
+    "replacements": "🔄 Erstatninger:",
+    "no_replacements": "✅ Ingen erstatninger",
+    "lesson": "time",
+    "instead_of": "I stedet for {from} — {to}",
+    "was": "Var: {teacher}",
+    "week_even": "Partallsuke",
+    "week_odd": "Oddetallsuke"
+  },
+  "days": {
+    "monday": "Mandag",
+    "tuesday": "Tirsdag",
+    "wednesday": "Onsdag",
+    "thursday": "Torsdag",
+    "friday": "Fredag",
+    "saturday": "Lørdag",
+    "sunday": "Søndag"
+  },
+  "notifications": {
+    "enabled": "🔔 Varsler aktivert.\nDu vil motta påminnelser 10 minutter før timen starter.",
+    "disabled": "🔕 Varsler deaktivert.\nPåminnelser 10 minutter før timen vil ikke bli sendt.",
+    "reminder": "⏰ Timen starter om ~10 minutter:\n📚 {subject}",
+    "room": "🚪 Rom {room}",
+    "teacher": "👤 {teacher}",
+    "time": "🕐 {start} – {end}"
+  },
+  "errors": {
+    "invalid_group": "❌ Ugyldig gruppeformat!\nEksempel: 1ИП-3-25\n\nPrøv igjen:",
+    "no_buildings": "⚠️ Kunne ikke laste campus-liste. Prøv igjen senere.",
+    "group_not_found": "❌ Gruppe {group} ikke funnet på campus {building}.\nSjekk stavemåten eller velg et annet campus.",
+    "wrong_building": "❌ Gruppe {group} studerer på {api_building}, ikke på {building}.\nVelg riktig campus eller skriv inn en annen gruppe.",
+    "unknown": "⚠️ En feil oppstod. Prøv igjen senere."
+  }
+}

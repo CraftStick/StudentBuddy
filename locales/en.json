@@ -1,0 +1,82 @@
+{
+  "language_name": "English 🇬🇧",
+  "welcome": {
+    "hello": "Hello, {name}!",
+    "back": "Hello, {name}!\nYou're in group {group}. Welcome back! 🙂",
+    "back_with_building": "Hello, {name}!\nYou're in group {group} ({building}). Welcome back! 🙂",
+    "choose_building": "Which campus do you study at?",
+    "enter_group": "What group are you in?\n(Format: 1ИП-3-25)"
+  },
+  "menu": {
+    "main": "📋 <b>Main Menu</b>\n\n▪️ <b>📅 Schedule</b> — show schedule for selected day (Mon–Sat or today)\n▪️ <b>❌ Cancel</b> — cancel current dialog (name/group)\n\nType /menu for this message. Schedule — button below greeting or /schedule command.",
+    "schedule": "📅 Schedule",
+    "cancel": "❌ Cancel",
+    "settings": "⚙️ Settings",
+    "notifications": "🔔 Notifications",
+    "change_data": "✏️ Change data",
+    "back": "◀️ Back",
+    "today": "Today"
+  },
+  "buttons": {
+    "monday": "Mon",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "thursday": "Thu",
+    "friday": "Fri",
+    "saturday": "Sat"
+  },
+  "settings_menu": {
+    "title": "⚙️ <b>Settings</b>\n\nChoose what you want to change:",
+    "language": "🌐 Language",
+    "building": "🏢 Campus",
+    "group": "👥 Group",
+    "notifications": "🔔 Notifications",
+    "language_selected": "🌐 Language changed to: {language}",
+    "choose_language": "🌐 Choose language:"
+  },
+  "schedule": {
+    "choose_day": "📅 Choose day of the week:",
+    "no_group": "First specify campus and group: press /start.",
+    "loading": "⏳ Loading schedule...",
+    "error": "⚠️ Failed to load schedule. Try again later.",
+    "no_lessons": "📭 No classes on {day}. Rest!",
+    "for_day": "📅 Schedule for {day}:",
+    "header_group": "📅 Schedule:",
+    "header_building": "📍 {building}",
+    "header_week": "🗓 Week:",
+    "room": "🚪 Room {room}",
+    "teacher": "👤 {teacher}",
+    "no_data": "No classes for the selected period.",
+    "replacements": "🔄 Replacements:",
+    "no_replacements": "✅ No replacements",
+    "lesson": "class",
+    "instead_of": "Instead of {from} — {to}",
+    "was": "Was: {teacher}",
+    "week_even": "Even week",
+    "week_odd": "Odd week"
+  },
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "notifications": {
+    "enabled": "🔔 Notifications enabled.\nYou will receive reminders 10 minutes before class starts.",
+    "disabled": "🔕 Notifications disabled.\nReminders 10 minutes before class won't be sent.",
+    "reminder": "⏰ Class starts in ~10 minutes:\n📚 {subject}",
+    "room": "🚪 Room {room}",
+    "teacher": "👤 {teacher}",
+    "time": "🕐 {start} – {end}"
+  },
+  "errors": {
+    "invalid_group": "❌ Invalid group format!\nExample: 1ИП-3-25\n\nTry again:",
+    "no_buildings": "⚠️ Failed to load campus list. Try again later.",
+    "group_not_found": "❌ Group {group} not found at campus {building}.\nCheck spelling or choose another campus.",
+    "wrong_building": "❌ Group {group} studies at {api_building}, not at {building}.\nChoose the correct campus or enter another group.",
+    "unknown": "⚠️ An error occurred. Try again later."
+  }
+}
