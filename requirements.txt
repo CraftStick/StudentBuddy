@@ -1,4 +1,11 @@
+# Бот и API (версии зафиксированы для воспроизводимости деплоя)
 python-telegram-bot[job-queue]>=21.0
 python-dotenv>=1.0.0
 httpx>=0.27.0
 tzdata>=2024.1
+redis>=5.0
+
+# Парсер автобусов (меню «Автобусы» → mosgortrans)
+playwright>=1.40
+python-decouple>=3.8
+loguru>=0.7

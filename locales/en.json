@@ -13,9 +13,19 @@
     "cancel": "❌ Cancel",
     "settings": "⚙️ Settings",
     "notifications": "🔔 Notifications",
+    "buses": "🚌 Buses",
     "change_data": "✏️ Change data",
     "back": "◀️ Back",
     "today": "Today"
+  },
+  "buses": {
+    "choose_direction": "🚌 <b>Bus schedule</b>\n\nChoose direction:",
+    "to_college": "To college",
+    "to_metro": "To metro",
+    "loading": "⏳ Loading schedule from Yandex Maps...",
+    "error": "⚠️ Failed to load schedule. Check your connection or open the link manually.",
+    "error_no_driver": "⚠️ Schedule from the site is unavailable: browser (Playwright/Chromium) is not installed on the server. Run: pip install playwright && playwright install chromium. Open the link below for the current schedule.",
+    "footer_campus": "📍 For now this schedule is for the college at Akademika Millionščikova."
   },
   "buttons": {
     "monday": "Mon",
