@@ -13,9 +13,18 @@
     "cancel": "❌ Peruuta",
     "settings": "⚙️ Asetukset",
     "notifications": "🔔 Ilmoitukset",
+    "buses": "🚌 Bussit",
     "change_data": "✏️ Muuta tietoja",
     "back": "◀️ Takaisin",
     "today": "Tänään"
+  },
+  "buses": {
+    "choose_direction": "🚌 <b>Bussiaikataulu</b>\n\nValitse suunta:",
+    "to_college": "Kolleegille",
+    "to_metro": "Metrolle",
+    "loading": "⏳ Ladataan aikataulua Yandex Mapsista...",
+    "error": "⚠️ Aikataulun lataus epäonnistui. Tarkista yhteys tai avaa linkki manuaalisesti.",
+    "footer_campus": "📍 Tämä aikataulu koskee toistaiseksi korkeakoulua osoitteessa Akademika Millionščikova."
   },
   "buttons": {
     "monday": "Ma",
@@ -39,6 +48,13 @@
     "no_group": "Anna ensin kampus ja ryhmä: paina /start.",
     "loading": "⏳ Ladataan lukujärjestystä...",
     "error": "⚠️ Lukujärjestyksen lataaminen epäonnistui. Yritä myöhemmin uudelleen.",
+    "unknown_day": "Tuntematon päivä. Käytä: ma, ti, ke, to, pe, la tai numero 0–5.",
+    "no_token": "Lukujärjestystokenia (SCHEDULE_API_TOKEN) ei asetettu. Ota yhteyttä ylläpitäjään.",
+    "load_failed": "Lukujärjestystä ei voitu ladata. Yritä myöhemmin tai tarkista kampus ja ryhmä (/start).",
+    "cache_unchanged": "Tiedot ennallaan (välimuisti). Paina «📅 Lukujärjestys» ja valitse päivä.",
+    "cache_unchanged_picker": "Tiedot ennallaan (välimuisti). Valitse toinen päivä «📅 Lukujärjestys» -painikkeella.",
+    "format_error": "Muotovirhe. Paina «📅 Lukujärjestys» ja valitse päivä.",
+    "invalid_day": "Virheellinen päivä. Paina «📅 Lukujärjestys» ja valitse päivä.",
     "no_lessons": "📭 Ei oppitunteja {day}. Lepää!",
     "for_day": "📅 Lukujärjestys päivälle {day}:",
     "header_group": "📅 Lukujärjestys:",

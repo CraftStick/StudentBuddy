@@ -13,9 +13,18 @@
     "cancel": "❌ Avbryt",
     "settings": "⚙️ Inställningar",
     "notifications": "🔔 Aviseringar",
+    "buses": "🚌 Bussar",
     "change_data": "✏️ Ändra data",
     "back": "◀️ Tillbaka",
     "today": "Idag"
+  },
+  "buses": {
+    "choose_direction": "🚌 <b>Busschema</b>\n\nVälj riktning:",
+    "to_college": "Till college",
+    "to_metro": "Till tunnelbana",
+    "loading": "⏳ Hämtar schema från Yandex Maps...",
+    "error": "⚠️ Kunde inte ladda schemat. Kontrollera anslutningen eller öppna länken manuellt.",
+    "footer_campus": "📍 För närvarande gäller detta schema för college på Akademika Millionščikova."
   },
   "buttons": {
     "monday": "Mån",
@@ -39,6 +48,13 @@
     "no_group": "Ange först campus och grupp: tryck /start.",
     "loading": "⏳ Laddar schema...",
     "error": "⚠️ Kunde inte ladda schema. Försök igen senare.",
+    "unknown_day": "Okänd dag. Använd: mån, tis, ons, tor, fre, lör eller nummer 0–5.",
+    "no_token": "Schematoken (SCHEDULE_API_TOKEN) är inte satt. Kontakta administratören.",
+    "load_failed": "Kunde inte ladda schema. Försök igen eller kontrollera campus och grupp (/start).",
+    "cache_unchanged": "Data oförändrad (cache). Tryck «📅 Schema» och välj dag.",
+    "cache_unchanged_picker": "Data oförändrad (cache). Välj en annan dag med «📅 Schema».",
+    "format_error": "Formatfel. Tryck «📅 Schema» och välj dag.",
+    "invalid_day": "Ogiltig dag. Tryck «📅 Schema» och välj dag.",
     "no_lessons": "📭 Inga lektioner på {day}. Vila!",
     "for_day": "📅 Schema för {day}:",
     "header_group": "📅 Schema:",

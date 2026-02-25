@@ -52,14 +52,15 @@ BUS_DIRECTIONS = {
         "url": "https://yandex.ru/maps/213/moscow/stops/stop__9643158/?ll=37.663089%2C55.676860&tab=overview&z=18",
         "message": "Метро Коломенская · 3A",
         "buses": ["м19", "с820"],
-        "route_from_to": "От метро Коломенская до Электромеханический колледж",
+        "route_from_to": "От метро Коломенская до Электромеханического колледжа",
         "stops": {"м19": 5, "с820": 5},
     },
     "office_home": {
+        # overview — та же вкладка, что и «К колледжу»; панель может появиться с задержкой
         "url": "https://yandex.ru/maps/213/moscow/stops/stop__9645789/?ll=37.648561%2C55.665797&tab=overview&z=20",
         "message": "Коломенский проезд, 8",
         "buses": ["с820"],
-        "route_from_to": "От Коломенский проезд, 8 до метро Коломенская",
+        "route_from_to": "От Коломенского проезда 8 до метро Коломенская",
         "stops": {"с820": 4},
     },
 }
@@ -84,6 +85,7 @@ def _fetch_bus_schedule_sync(direction: str) -> str:
         cfg = BUS_DIRECTIONS.get(direction)
         if not cfg:
             return ""
+        logger.info("Парсер автобусов: направление=%s, url=%s", direction, cfg["url"])
         with WebParser.get_browser_context() as page:
             result = WebParser.parse_yandex_maps(
                 url=cfg["url"],
@@ -168,53 +170,68 @@ async def buses_direction_callback(update: Update, context: ContextTypes.DEFAULT
 
     loading_msg = await context.bot.send_message(chat_id, t(lang, "buses.loading"))
 
-    cached = _get_cached_schedule(direction)
-    if cached is not None:
-        text = cached
-    else:
-        loop = asyncio.get_event_loop()
+    # Парсинг в фоне — обработчик завершается сразу, чтобы не было "Query is too old"
+    async def _send_result_after_parse() -> None:
         try:
-            text = await loop.run_in_executor(
-                None,
-                _fetch_bus_schedule_sync,
-                direction,
+            cached = _get_cached_schedule(direction)
+            if cached is not None:
+                text = cached
+            else:
+                try:
+                    loop = asyncio.get_event_loop()
+                    text = await loop.run_in_executor(
+                        None,
+                        _fetch_bus_schedule_sync,
+                        direction,
+                    )
+                    if text and "не сконфигурирован" not in text and "не найдено" not in text:
+                        _set_cached_schedule(direction, text)
+                except Exception as e:
+                    logger.exception("Bus schedule task failed: %s", e)
+                    text = ""
+
+            cfg = BUS_DIRECTIONS.get(direction, {})
+
+            if not text or "не сконфигурирован" in text or "не найдено" in text:
+                url = cfg.get("url", "")
+                if text and "не сконфигурирован" in text:
+                    text = t(lang, "buses.error_no_driver")
+                elif text and "не найдено" in text:
+                    text = t(lang, "buses.error_try_again")
+                else:
+                    text = t(lang, "buses.error")
+                if url:
+                    text += f"\n\n{url}"
+            else:
+                msg = cfg.get("message", "")
+                if msg and text.startswith(msg):
+                    text = text[len(msg):].lstrip("\n")
+                title = t(lang, "buses.to_college") if direction == "home_office" else t(lang, "buses.to_metro")
+                route = cfg.get("route_from_to", "")
+                stops = cfg.get("stops", {})
+                stops_line = ", ".join(f"{bus} — {n} ост." for bus, n in stops.items())
+                header = f"{title}\n{route}\n{stops_line}\n\n"
+                text = header + text + "\n\n" + t(lang, "buses.footer_campus")
+
+            try:
+                await context.bot.delete_message(chat_id, loading_msg.message_id)
+            except BadRequest:
+                pass
+            await context.bot.send_message(
+                chat_id,
+                text,
+                reply_markup=buses_keyboard(lang),
             )
-            if text and "не сконфигурирован" not in text and "не найдено" not in text:
-                _set_cached_schedule(direction, text)
         except Exception as e:
-            logger.exception("Bus schedule task failed: %s", e)
-            text = ""
+            logger.exception("Buses direction task crashed: %s", e)
+            try:
+                await context.bot.delete_message(chat_id, loading_msg.message_id)
+            except BadRequest:
+                pass
+            await context.bot.send_message(
+                chat_id,
+                t(lang, "buses.error"),
+                reply_markup=buses_keyboard(lang),
+            )
 
-    cfg = BUS_DIRECTIONS.get(direction, {})
-
-    if not text or "не сконфигурирован" in text or "не найдено" in text:
-        url = cfg.get("url", "")
-        # Различаем: нет Firefox на сервере vs сетевая/другая ошибка
-        if text and "не сконфигурирован" in text:
-            text = t(lang, "buses.error_no_driver")
-        else:
-            text = t(lang, "buses.error")
-        if url:
-            text += f"\n\n{url}"
-    else:
-        # Успешный ответ: маршрут и остановки уже в заголовке — убираем повтор названия остановки из вывода парсера
-        msg = cfg.get("message", "")
-        if msg and text.startswith(msg):
-            text = text[len(msg):].lstrip("\n")
-        title = t(lang, "buses.to_college") if direction == "home_office" else t(lang, "buses.to_metro")
-        route = cfg.get("route_from_to", "")
-        stops = cfg.get("stops", {})
-        stops_line = ", ".join(f"{bus} — {n} ост." for bus, n in stops.items())
-        header = f"{title}\n{route}\n{stops_line}\n\n"
-        text = header + text + "\n\n" + t(lang, "buses.footer_campus")
-
-    # Удаляем «Загружаю расписание...» и отправляем результат
-    try:
-        await context.bot.delete_message(chat_id, loading_msg.message_id)
-    except BadRequest:
-        pass
-    await context.bot.send_message(
-        chat_id,
-        text,
-        reply_markup=buses_keyboard(lang),
-    )
+    asyncio.create_task(_send_result_after_parse())

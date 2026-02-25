@@ -13,9 +13,18 @@
     "cancel": "❌ Abbrechen",
     "settings": "⚙️ Einstellungen",
     "notifications": "🔔 Benachrichtigungen",
+    "buses": "🚌 Busse",
     "change_data": "✏️ Daten ändern",
     "back": "◀️ Zurück",
     "today": "Heute"
+  },
+  "buses": {
+    "choose_direction": "🚌 <b>Busfahrplan</b>\n\nRichtung wählen:",
+    "to_college": "Zum Kolleg",
+    "to_metro": "Zur U-Bahn",
+    "loading": "⏳ Fahrplan von Yandex Maps wird geladen...",
+    "error": "⚠️ Fahrplan konnte nicht geladen werden. Verbindung prüfen oder Link manuell öffnen.",
+    "footer_campus": "📍 Derzeit gilt dieser Fahrplan für das Kolleg an der Akademika Millionščikova."
   },
   "buttons": {
     "monday": "Mo",
@@ -39,6 +48,13 @@
     "no_group": "Gib zuerst Campus und Gruppe an: drücke /start.",
     "loading": "⏳ Lade Stundenplan...",
     "error": "⚠️ Stundenplan konnte nicht geladen werden. Versuche es später noch einmal.",
+    "unknown_day": "Unbekannter Tag. Nutze: Mo, Di, Mi, Do, Fr, Sa oder Zahl 0–5.",
+    "no_token": "Stundenplan-Token (SCHEDULE_API_TOKEN) nicht gesetzt. Kontaktiere den Administrator.",
+    "load_failed": "Stundenplan konnte nicht geladen werden. Später erneut versuchen oder Campus/Gruppe prüfen (/start).",
+    "cache_unchanged": "Daten unverändert (Cache). Drücke «📅 Stundenplan» und wähle den Tag.",
+    "cache_unchanged_picker": "Daten unverändert (Cache). Wähle einen anderen Tag mit «📅 Stundenplan».",
+    "format_error": "Formatfehler. Drücke «📅 Stundenplan» und wähle den Tag.",
+    "invalid_day": "Ungültiger Tag. Drücke «📅 Stundenplan» und wähle den Tag.",
     "no_lessons": "📭 Keine Kurse am {day}. Ruhe dich aus!",
     "for_day": "📅 Stundenplan für {day}:",
     "header_group": "📅 Stundenplan:",

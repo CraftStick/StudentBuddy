@@ -2,15 +2,24 @@
 """Обработчики команды /start и диалога выбора корпуса и группы."""
 
 import logging
-import os
 
 import httpx
 from telegram import Update
 from telegram.ext import ConversationHandler, ContextTypes
 
-from config import BUILDING, GROUP, BUILDINGS_LIST, GROUP_PATTERN
+from config import (
+    BUILDING,
+    GROUP,
+    BUILDINGS_LIST,
+    GROUP_PATTERN,
+    MAX_GROUP_LENGTH,
+    MAX_BUILDING_LENGTH,
+    TRANSPORT_STEP_KEY,
+    SCHEDULE_API_TOKEN,
+    DATABASE_PATH,
+)
 from database import Database
-from user_helpers import get_user_language
+from utils.user_helpers import get_user_language
 from i18n import t
 from keyboards import (
     buildings_keyboard,
@@ -20,7 +29,7 @@ from keyboards import (
 )
 
 logger = logging.getLogger(__name__)
-db = Database()
+db = Database(db_path=DATABASE_PATH)
 
 
 def _user_display_name(user) -> str:
@@ -74,6 +83,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         return ConversationHandler.END
     
     # Новый пользователь или без группы — просим выбрать корпус
+    # Проверяем, что список корпусов не пуст
+    if not BUILDINGS_LIST:
+        logger.error("BUILDINGS_LIST пуст, невозможно продолжить регистрацию")
+        await update.message.reply_text(
+            "⚠️ Извини, сейчас нет доступных корпусов. Попробуй позже или обратись к администратору.",
+            reply_markup=main_menu_keyboard(lang),
+        )
+        return ConversationHandler.END
+    
     context.user_data["buildings_list"] = BUILDINGS_LIST
     greeting = t(lang, "welcome.hello", name=name)
     choose_building = t(lang, "welcome.choose_building")
@@ -106,7 +124,13 @@ async def receive_building_callback(update: Update, context: ContextTypes.DEFAUL
         _, building = query.data.split(":", 1)
     except ValueError:
         return BUILDING
-    
+
+    # Валидация: только разрешённые корпуса (защита от поддельного callback_data)
+    buildings_list = context.user_data.get("buildings_list") or BUILDINGS_LIST
+    if building not in buildings_list:
+        logger.warning("receive_building_callback: неизвестный корпус %r", building)
+        return BUILDING
+
     # Сохраняем корпус в context и БД
     context.user_data["building"] = building
     user_id = update.effective_user.id
@@ -126,6 +150,14 @@ async def receive_building(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     text = update.message.text.strip()
     user_id = update.effective_user.id
     lang = get_user_language(user_id, context)
+    
+    # Проверка длины ввода
+    if len(text) > MAX_BUILDING_LENGTH:
+        await update.message.reply_text(
+            f"Название корпуса слишком длинное (максимум {MAX_BUILDING_LENGTH} символов)"
+        )
+        return BUILDING
+    
     buildings_list = context.user_data.get("buildings_list") or []
     if not buildings_list:
         await update.message.reply_text(t(lang, "errors.no_buildings"))
@@ -153,14 +185,21 @@ async def receive_group(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     user_id = update.effective_user.id
     lang = get_user_language(user_id, context)
     
+    # Проверка длины ввода
+    if len(group) > MAX_GROUP_LENGTH:
+        await update.message.reply_text(
+            f"Название группы слишком длинное (максимум {MAX_GROUP_LENGTH} символов)"
+        )
+        return GROUP
+    
     if not GROUP_PATTERN.match(group):
         await update.message.reply_text(t(lang, "errors.invalid_group"))
         return GROUP
     
     # Проверяем, существует ли группа в выбранном корпусе
     building = context.user_data.get("building", "")
-    token = os.getenv("SCHEDULE_API_TOKEN")
-    
+    token = SCHEDULE_API_TOKEN
+
     if not token:
         logger.error("SCHEDULE_API_TOKEN не найден")
         context.user_data["group"] = group
@@ -197,7 +236,8 @@ async def receive_group(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
             
             if resp.status_code == 200:
                 data = resp.json()
-                logger.info(f"Данные от API: {data}")
+                # Логируем только метаинформацию, без полного тела ответа
+                logger.debug(f"Группа {group} найдена, корпус: {data.get('meta', {}).get('building', 'N/A')}, дней: {len(data.get('data', []))}")
                 
                 # Проверяем, что корпус в ответе совпадает с выбранным
                 api_building = data.get("meta", {}).get("building", "")
@@ -219,17 +259,23 @@ async def receive_group(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
             resp.raise_for_status()
             
     except httpx.HTTPStatusError as e:
-        logger.error(f"HTTP ошибка при проверке группы: {e}")
+        logger.error("HTTP ошибка при проверке группы: %s", e)
         await update.message.reply_text(
             t(lang, "errors.group_not_found", group=group, building=building),
             reply_markup=group_back_keyboard(lang),
         )
         return GROUP
+    except (httpx.RequestError, httpx.TimeoutException) as e:
+        # Сетевая ошибка или таймаут — разрешаем продолжить без проверки API
+        logger.warning("Сеть/таймаут при проверке группы, сохраняем группу без проверки API: %s", e)
     except Exception as e:
-        logger.error(f"Ошибка при проверке группы: {e}")
-        # Если ошибка сети, разрешаем продолжить
-        pass
-    
+        logger.exception("Непредвиденная ошибка при проверке группы: %s", e)
+        await update.message.reply_text(
+            t(lang, "errors.group_not_found", group=group, building=building),
+            reply_markup=group_back_keyboard(lang),
+        )
+        return GROUP
+
     # Сохраняем группу в context и БД
     context.user_data["group"] = group
     db.update_user(user_id, student_group=group)
@@ -245,18 +291,22 @@ async def receive_group(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Отмена диалога."""
-    user_id = update.effective_user.id
-    lang = get_user_language(user_id, context)
-    # Добавим простую строку для отмены в локали
     await update.message.reply_text("Ок, в любой момент можно начать заново — нажми /start")
     return ConversationHandler.END
 
 
 async def cancel_or_ok(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Реакция на кнопку «❌ Отмена» вне диалога."""
+    """Реакция на кнопку «❌ Отмена» вне диалога (в т.ч. отмена ввода транспорта)."""
     user_id = update.effective_user.id
     lang = get_user_language(user_id, context)
-    # Добавим простую строку в локали
+    if context.user_data.get(TRANSPORT_STEP_KEY):
+        context.user_data.pop(TRANSPORT_STEP_KEY, None)
+        context.user_data.pop("transport_stop_a", None)
+        await update.message.reply_text(
+            t(lang, "transport.cancelled"),
+            reply_markup=main_menu_keyboard(lang),
+        )
+        return
     await update.message.reply_text(
         "Сейчас нечего отменять. Используй кнопки ниже или /menu.",
         reply_markup=main_menu_keyboard(lang),

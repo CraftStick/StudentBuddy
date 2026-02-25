@@ -13,9 +13,18 @@
     "cancel": "❌ Avbryt",
     "settings": "⚙️ Innstillinger",
     "notifications": "🔔 Varsler",
+    "buses": "🚌 Busser",
     "change_data": "✏️ Endre data",
     "back": "◀️ Tilbake",
     "today": "I dag"
+  },
+  "buses": {
+    "choose_direction": "🚌 <b>Bussrute</b>\n\nVelg retning:",
+    "to_college": "Til college",
+    "to_metro": "Til T-bane",
+    "loading": "⏳ Henter rute fra Yandex Maps...",
+    "error": "⚠️ Kunne ikke laste rute. Sjekk tilkoblingen eller åpne lenken manuelt.",
+    "footer_campus": "📍 Foreløpig gjelder denne rutetabellen for college på Akademika Millionščikova."
   },
   "buttons": {
     "monday": "Man",
@@ -39,6 +48,13 @@
     "no_group": "Angi først campus og gruppe: trykk /start.",
     "loading": "⏳ Laster timeplan...",
     "error": "⚠️ Kunne ikke laste timeplan. Prøv igjen senere.",
+    "unknown_day": "Ukjent dag. Bruk: man, tir, ons, tor, fre, lør eller tall 0–5.",
+    "no_token": "Timeplantoken (SCHEDULE_API_TOKEN) er ikke satt. Kontakt administrator.",
+    "load_failed": "Kunne ikke laste timeplan. Prøv igjen eller sjekk campus og gruppe (/start).",
+    "cache_unchanged": "Data uendret (cache). Trykk «📅 Timeplan» og velg dag.",
+    "cache_unchanged_picker": "Data uendret (cache). Velg en annen dag med «📅 Timeplan».",
+    "format_error": "Formatfeil. Trykk «📅 Timeplan» og velg dag.",
+    "invalid_day": "Ugyldig dag. Trykk «📅 Timeplan» og velg dag.",
     "no_lessons": "📭 Ingen timer på {day}. Hvil deg!",
     "for_day": "📅 Timeplan for {day}:",
     "header_group": "📅 Timeplan:",
