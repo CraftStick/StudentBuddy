@@ -1,4 +1,4 @@
-.PHONY: help install dev run test clean deploy health backup docker-build docker-run docker-stop
+.PHONY: help install dev run test clean health backup docker-build docker-run docker-stop
 
 # Цвета для вывода
 BLUE := \033[0;34m
@@ -53,10 +53,6 @@ clean: ## Очистить временные файлы
 	find . -type f -name "*.pyo" -delete
 	find . -type f -name "*.log" -delete
 	@echo "$(GREEN)✅ Очистка завершена$(NC)"
-
-deploy: ## Деплой на сервер
-	@echo "$(BLUE)🚀 Деплой на production...$(NC)"
-	./deploy.sh
 
 docker-build: ## Собрать Docker образ
 	@echo "$(BLUE)🐳 Сборка Docker образа...$(NC)"

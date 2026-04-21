@@ -36,4 +36,4 @@ python3 health_check.py
 python3 bot.py
 ```
 
-Подробнее: установка, Docker, деплой и переменные окружения — **[docs/README.md](docs/README.md)**. Команды выката на сервер — **[docs/DEPLOY.md](docs/DEPLOY.md)**. История изменений — **[docs/CHANGELOG.md](docs/CHANGELOG.md)**.
+Подробнее: установка, Docker, деплой и переменные окружения — **[docs/README.md](docs/README.md)**.

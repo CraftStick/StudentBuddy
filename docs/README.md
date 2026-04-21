@@ -70,7 +70,7 @@ python3 bot.py
 
 **На сервере (systemd):**
 
-- Используйте `studentbuddy.service` из репозитория (при необходимости скорректируйте пути и пользователя).
+- Создайте unit-файл вручную: пользователь, `WorkingDirectory`, `ExecStart` на `venv/bin/python3` и `bot.py`, `EnvironmentFile` с путём к `.env` — по [документации systemd](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html) вашего дистрибутива.
 - После деплоя убедитесь, что в `.env` заданы `BOT_TOKEN` и `SCHEDULE_API_TOKEN`, затем выполните `health_check.py` и запустите сервис.
 
 Остановка по Ctrl+C или SIGTERM выполняется корректно (graceful shutdown).
@@ -108,24 +108,7 @@ python3 bot.py
 
 ### Как деплоить
 
-**Способ 1 — скрипт `deploy.sh` (рекомендуется)**
-
-На своей машине из корня репозитория:
-
-```bash
-# Настроить сервер и путь (при необходимости)
-export DEPLOY_SERVER="root@ВАШ_IP"
-export DEPLOY_PATH="/root/StudentBuddy"
-
-# На сервере должны быть: SSH-доступ, установлены Python 3, venv, PM2
-# В корне проекта должен быть файл .env (скопировать с .env.example и заполнить)
-
-./deploy.sh
-```
-
-Скрипт: проверяет `.env` и синтаксис, делает бэкап БД и `.env` на сервере, копирует файлы, ставит зависимости в venv, перезапускает бота через PM2.
-
-**Способ 2 — вручную**
+**Ручной деплой (git + PM2 на сервере)**
 
 На сервере в каталоге проекта:
 

@@ -47,6 +47,5 @@ tests/
 *.temp
 tmp/
 
-# Deployment
-deploy.sh
+# Compose (при необходимости собери образ отдельно)
 docker-compose.yml
