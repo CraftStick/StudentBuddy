@@ -18,6 +18,20 @@ BASE_URL = "https://api.mgkeit.space"
 logger = logging.getLogger(__name__)
 
 
+# Символы, похожие на дефис (API может вернуть Unicode minus/en-dash вместо ASCII)
+_GROUP_DASH_CHARS = "\u2010\u2011\u2012\u2013\u2014\u2212\uFE58\uFE63\uFF0D"
+
+
+def _normalize_group_for_compare(s: str) -> str:
+    """Нормализует строку группы для сравнения: один тип дефиса, без учёта регистра."""
+    if not s:
+        return ""
+    s = s.strip().lower()
+    for c in _GROUP_DASH_CHARS:
+        s = s.replace(c, "-")
+    return s
+
+
 def _day_to_date(day: int) -> str:
     """Преобразует день недели 0–5 (Пн–Сб) в дату YYYY-MM-DD в текущей неделе по Москве (API в МСК)."""
     now = datetime.now(SCHEDULE_TIMEZONE)
@@ -114,8 +128,8 @@ def get_replacements(
             date_str,
         )
 
-    # Сравнение группы без учёта регистра (API может вернуть 1ип-3-25 вместо 1ИП-3-25)
-    group_lower = (group or "").strip().lower()
+    # Сравнение группы без учёта регистра и типа дефиса (API может вернуть 1ип−3−25 вместо 1ИП-3-25)
+    group_norm = _normalize_group_for_compare(group or "")
 
     result = []
     for item in raw_list:
@@ -136,8 +150,8 @@ def get_replacements(
             "room_replace": str(room_replace_raw).strip() if room_replace_raw is not None else "",
         }
         # Показываем только замены для запрошенной группы (если API вернул все группы)
-        if group_lower and entry["group"]:
-            if entry["group"].strip().lower() != group_lower:
+        if group_norm and entry["group"]:
+            if _normalize_group_for_compare(entry["group"]) != group_norm:
                 continue
         result.append(entry)
 

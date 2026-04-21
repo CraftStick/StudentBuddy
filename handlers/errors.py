@@ -24,5 +24,5 @@ async def error_handler(
             await update.effective_message.reply_text(
                 "Произошла ошибка. Попробуй /start или /menu позже."
             )
-        except Exception:
-            pass
+        except Exception as e:
+            logger.debug("Не удалось отправить сообщение об ошибке пользователю: %s", e)

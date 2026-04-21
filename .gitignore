@@ -1,10 +1,71 @@
+# Environment variables and secrets
 .env
+.env.local
+.env.production
+*.key
+*.pem
+*.crt
+credentials.json
+secrets/
+
+# Database files
 studentbuddy.db
 studentbuddy_backup_*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Persistence and cache
 studentbuddy_data.pickle
+*.pickle
+*.pkl
+
+# Python
 __pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
 .venv/
 venv/
+env/
+ENV/
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 .DS_Store
+.cursor/
+
+# Logs (каталог нужен для Docker/volume; в репо только .gitkeep)
+*.log
+logs/*
+!logs/.gitkeep
+log/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Deployment
+*.tar.gz
+*.zip
+deploy_backup/
+from_server/

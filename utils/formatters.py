@@ -1,8 +1,30 @@
 # -*- coding: utf-8 -*-
 """Форматирование расписания и замен для сообщений бота."""
 
+from typing import Any
+
 from config import NUMBER_EMOJI, SUBJECT_EMOJI
+from utils.time_utils import fix_saturday_time
 from i18n import t
+
+
+def safe_strip(value: Any, default: str = "?") -> str:
+    """Безопасное получение и очистка строкового значения."""
+    if value is None:
+        return default
+    result = str(value).strip()
+    return result if result else default
+
+
+def normalize_room(room: str) -> str:
+    """Убирает префикс корпуса (например «Академика Миллионщикова. »), оставляет номер аудитории."""
+    if not room or not room.strip():
+        return room
+    low = room.lower()
+    idx = low.find("каб:")
+    if idx >= 0:
+        return room[idx + 4 :].strip()  # только номер после "каб:"
+    return room
 
 
 def subject_emoji(subject: str) -> str:
@@ -36,40 +58,36 @@ def week_label(meta: dict, lang: str = 'ru') -> str:
 def format_timetable(data: dict, lang: str = 'ru') -> str:
     """Форматирует ответ API в читабельный вид с эмодзи."""
     meta = data.get("meta", {})
-    group = (meta.get("group") or "?").strip()
-    building = (meta.get("building") or "?").strip()
+    group = safe_strip(meta.get("group"))
+    building = safe_strip(meta.get("building"))
     week_label_str = week_label(meta, lang)
-
     parts = [
         f"{t(lang, 'schedule.header_group')} {group}",
         t(lang, "schedule.header_building", building=building),
         f"{t(lang, 'schedule.header_week')} {week_label_str}",
         "",
     ]
-
+    day_name_to_weekday = {
+        "понедельник": 0, "monday": 0, "вторник": 1, "tuesday": 1,
+        "среда": 2, "wednesday": 2, "четверг": 3, "thursday": 3,
+        "пятница": 4, "friday": 4, "суббота": 5, "saturday": 5,
+    }
     for day_block in data.get("data", []):
-        day_name = (day_block.get("day_name") or "?").strip()
+        day_name = safe_strip(day_block.get("day_name"))
         units = day_block.get("units", [])
         if not units:
             continue
         parts.append(f"🔻 {day_name}")
         parts.append("")
-
+        weekday = day_name_to_weekday.get(day_name.lower(), -1)
         for i, u in enumerate(units):
             num_emoji = NUMBER_EMOJI[i] if i < len(NUMBER_EMOJI) else f"{i + 1}."
-            subj = (u.get("subject") or "—").strip()
-            start = (u.get("start") or "").strip()
-            end = (u.get("end") or "").strip()
-            
-            # Костыль: API возвращает неправильное время для субботы (8:30 вместо 9:00)
-            if day_name.lower() == "суббота" and start == "8:30":
-                start = "9:00"
-                # Если конец тоже нужно сдвинуть (8:30-9:15 -> 9:00-9:45)
-                if end == "9:15":
-                    end = "9:45"
-            teacher = (u.get("teacher") or "").strip()
-            room = (u.get("room") or "").strip()
-
+            subj = safe_strip(u.get("subject"), "—")
+            start = safe_strip(u.get("start"), "")
+            end = safe_strip(u.get("end"), "")
+            start, end = fix_saturday_time(start, end, weekday)
+            teacher = safe_strip(u.get("teacher"), "")
+            room = normalize_room(safe_strip(u.get("room"), ""))
             time_range = f"{start} – {end}" if start and end else ""
             subj_emoji = subject_emoji(subj)
             line1 = f"{num_emoji} {time_range} | {subj_emoji} {subj}" if time_range else f"{num_emoji} {subj_emoji} {subj}"
@@ -79,9 +97,7 @@ def format_timetable(data: dict, lang: str = 'ru') -> str:
             if room:
                 parts.append(t(lang, "schedule.room", room=room))
             parts.append("")
-
         parts.append("")
-
     text = "\n".join(parts).rstrip()
     return text or t(lang, "schedule.no_data")
 
@@ -100,11 +116,10 @@ def format_replacements(replacements: list[dict], lang: str = 'ru') -> str:
             lesson_str = ", ".join(str(x) for x in sorted_lessons) + f" {t(lang, 'schedule.lesson')}"
         else:
             lesson_str = "?"
-        teacher_from = (r.get("teacher_from") or "").strip()
-        teacher_to = (r.get("teacher_to") or "").strip()
-        room_schedule = (r.get("room_schedule") or "").strip()
-        room_replace = r.get("room_replace")
-        room_replace_str = str(room_replace).strip() if room_replace else ""
+        teacher_from = safe_strip(r.get("teacher_from"), "")
+        teacher_to = safe_strip(r.get("teacher_to"), "")
+        room_schedule = normalize_room(safe_strip(r.get("room_schedule"), ""))
+        room_replace_str = normalize_room(safe_strip(r.get("room_replace"), ""))
         num_emoji = NUMBER_EMOJI[sorted_lessons[0] - 1] if sorted_lessons and 1 <= sorted_lessons[0] <= len(NUMBER_EMOJI) else "•"
         parts.append("")
         parts.append(f"{num_emoji} {lesson_str}")

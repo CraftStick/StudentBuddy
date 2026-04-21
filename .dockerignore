@@ -1,0 +1,52 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+env/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+
+# Database and cache
+studentbuddy.db
+studentbuddy_backup_*.db
+*.db-journal
+studentbuddy_data.pickle
+*.pickle
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+.cursor/
+
+# Logs
+*.log
+logs/
+
+# Documentation (не нужны в образе)
+*.md
+!README.md
+
+# Testing
+tests/
+.pytest_cache/
+.coverage
+
+# Temporary
+*.tmp
+*.temp
+tmp/
+
+# Deployment
+deploy.sh
+docker-compose.yml

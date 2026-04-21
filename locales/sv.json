@@ -24,7 +24,12 @@
     "to_metro": "Till tunnelbana",
     "loading": "⏳ Hämtar schema från Yandex Maps...",
     "error": "⚠️ Kunde inte ladda schemat. Kontrollera anslutningen eller öppna länken manuellt.",
-    "footer_campus": "📍 För närvarande gäller detta schema för college på Akademika Millionščikova."
+    "footer_campus": "📍 För närvarande gäller detta schema för college på Akademika Millionščikova.",
+    "stops_section": "🚌 Hållplatser:",
+    "stop_item": "• {bus} — {n} hållplatser till {dest}",
+    "stop_item_metro": "• {bus} — {n} hållplatser till tunnelbana",
+    "eta": "⏱️ Ankomst: ~{time} MSK",
+    "route_link": "🚌 rutt i Yandex Maps"
   },
   "buttons": {
     "monday": "Mån",
@@ -41,7 +46,10 @@
     "group": "👥 Grupp",
     "notifications": "🔔 Aviseringar",
     "language_selected": "🌐 Språk ändrat till: {language}",
-    "choose_language": "🌐 Välj språk:"
+    "reminder_interval": "⏱ Påminnelseintervall",
+    "choose_language": "🌐 Välj språk:",
+    "choose_reminder_interval": "⏱ Välj hur många minuter innan lektionen du vill få en påminnelse:",
+    "reminder_interval_set": "✅ Påminnelseintervall inställt: <b>{minutes}</b> minuter innan lektionen."
   },
   "schedule": {
     "choose_day": "📅 Välj veckodag:",
@@ -81,9 +89,14 @@
     "sunday": "Söndag"
   },
   "notifications": {
-    "enabled": "🔔 Aviseringar aktiverade.\nDu kommer att få påminnelser 10 minuter innan lektionen börjar.",
-    "disabled": "🔕 Aviseringar inaktiverade.\nPåminnelser 10 minuter innan lektionen skickas inte.",
-    "reminder": "⏰ Lektionen börjar om ~10 minuter:\n📚 {subject}",
+    "enabled": "🔔 Aviseringar aktiverade.\nDu kommer att få påminnelser innan lektionen börjar.",
+    "disabled": "🔕 Aviseringar inaktiverade.\nPåminnelser innan lektionen börjar skickas inte.",
+    "submenu_title": "🔔 Aviseringar",
+    "submenu_status_on": "På. Påminn <b>{minutes}</b> min före lektion.",
+    "submenu_status_off": "Av. Välj intervall och tryck «Sätt på».",
+    "turn_on": "🔔 Sätt på",
+    "turn_off": "🔕 Stäng av",
+    "reminder": "⏰ Lektionen börjar snart:\n📚 {subject}",
     "room": "🚪 Rum {room}",
     "teacher": "👤 {teacher}",
     "time": "🕐 {start} – {end}"

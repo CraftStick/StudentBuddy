@@ -24,7 +24,12 @@
     "to_metro": "Metrolle",
     "loading": "⏳ Ladataan aikataulua Yandex Mapsista...",
     "error": "⚠️ Aikataulun lataus epäonnistui. Tarkista yhteys tai avaa linkki manuaalisesti.",
-    "footer_campus": "📍 Tämä aikataulu koskee toistaiseksi korkeakoulua osoitteessa Akademika Millionščikova."
+    "footer_campus": "📍 Tämä aikataulu koskee toistaiseksi korkeakoulua osoitteessa Akademika Millionščikova.",
+    "stops_section": "🚌 Pysäkit:",
+    "stop_item": "• {bus} — {n} pysäkkiä kohteeseen {dest}",
+    "stop_item_metro": "• {bus} — {n} pysäkkiä metroon",
+    "eta": "⏱️ Saapuminen: ~{time} MSK",
+    "route_link": "🚌 reitti Yandex Mapsissa"
   },
   "buttons": {
     "monday": "Ma",
@@ -41,7 +46,10 @@
     "group": "👥 Ryhmä",
     "notifications": "🔔 Ilmoitukset",
     "language_selected": "🌐 Kieli vaihdettu: {language}",
-    "choose_language": "🌐 Valitse kieli:"
+    "reminder_interval": "⏱ Muistutusväli",
+    "choose_language": "🌐 Valitse kieli:",
+    "choose_reminder_interval": "⏱ Valitse, kuinka monta minuuttia ennen tuntia haluat muistutuksen:",
+    "reminder_interval_set": "✅ Muistutusväli asetettu: <b>{minutes}</b> minuuttia ennen tuntia."
   },
   "schedule": {
     "choose_day": "📅 Valitse viikonpäivä:",
@@ -81,9 +89,14 @@
     "sunday": "Sunnuntai"
   },
   "notifications": {
-    "enabled": "🔔 Ilmoitukset käytössä.\nSaat muistutuksia 10 minuuttia ennen tunnin alkua.",
-    "disabled": "🔕 Ilmoitukset pois käytöstä.\nMuistutuksia 10 minuuttia ennen tunnin alkua ei lähetetä.",
-    "reminder": "⏰ Tunti alkaa ~10 minuutin kuluttua:\n📚 {subject}",
+    "enabled": "🔔 Ilmoitukset käytössä.\nSaat muistutuksia ennen tunnin alkua.",
+    "disabled": "🔕 Ilmoitukset pois käytöstä.\nMuistutuksia ennen tunnin alkua ei lähetetä.",
+    "submenu_title": "🔔 Ilmoitukset",
+    "submenu_status_on": "Päällä. Muistuta <b>{minutes}</b> min ennen tuntia.",
+    "submenu_status_off": "Pois. Valitse väli ja paina «Ota käyttöön».",
+    "turn_on": "🔔 Ota käyttöön",
+    "turn_off": "🔕 Poista käytöstä",
+    "reminder": "⏰ Tunti alkaa pian:\n📚 {subject}",
     "room": "🚪 Huone {room}",
     "teacher": "👤 {teacher}",
     "time": "🕐 {start} – {end}"

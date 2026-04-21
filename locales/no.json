@@ -24,7 +24,12 @@
     "to_metro": "Til T-bane",
     "loading": "⏳ Henter rute fra Yandex Maps...",
     "error": "⚠️ Kunne ikke laste rute. Sjekk tilkoblingen eller åpne lenken manuelt.",
-    "footer_campus": "📍 Foreløpig gjelder denne rutetabellen for college på Akademika Millionščikova."
+    "footer_campus": "📍 Foreløpig gjelder denne rutetabellen for college på Akademika Millionščikova.",
+    "stops_section": "🚌 Stopp:",
+    "stop_item": "• {bus} — {n} stopp til {dest}",
+    "stop_item_metro": "• {bus} — {n} stopp til T-bane",
+    "eta": "⏱️ Ankomst: ~{time} MSK",
+    "route_link": "🚌 rute i Yandex Maps"
   },
   "buttons": {
     "monday": "Man",
@@ -41,7 +46,10 @@
     "group": "👥 Gruppe",
     "notifications": "🔔 Varsler",
     "language_selected": "🌐 Språk endret til: {language}",
-    "choose_language": "🌐 Velg språk:"
+    "reminder_interval": "⏱ Påminnelsesintervall",
+    "choose_language": "🌐 Velg språk:",
+    "choose_reminder_interval": "⏱ Velg hvor mange minutter før timen du vil få en påminnelse:",
+    "reminder_interval_set": "✅ Påminnelsesintervall satt til <b>{minutes}</b> minutter før timen."
   },
   "schedule": {
     "choose_day": "📅 Velg ukedag:",
@@ -81,9 +89,14 @@
     "sunday": "Søndag"
   },
   "notifications": {
-    "enabled": "🔔 Varsler aktivert.\nDu vil motta påminnelser 10 minutter før timen starter.",
-    "disabled": "🔕 Varsler deaktivert.\nPåminnelser 10 minutter før timen vil ikke bli sendt.",
-    "reminder": "⏰ Timen starter om ~10 minutter:\n📚 {subject}",
+    "enabled": "🔔 Varsler aktivert.\nDu vil motta påminnelser før timen starter.",
+    "disabled": "🔕 Varsler deaktivert.\nPåminnelser før timen vil ikke bli sendt.",
+    "submenu_title": "🔔 Varsler",
+    "submenu_status_on": "På. Påminn <b>{minutes}</b> min før time.",
+    "submenu_status_off": "Av. Velg intervall og trykk «Slå på».",
+    "turn_on": "🔔 Slå på",
+    "turn_off": "🔕 Slå av",
+    "reminder": "⏰ Timen starter snart:\n📚 {subject}",
     "room": "🚪 Rom {room}",
     "teacher": "👤 {teacher}",
     "time": "🕐 {start} – {end}"

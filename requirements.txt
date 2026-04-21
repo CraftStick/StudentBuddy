@@ -4,8 +4,7 @@ python-dotenv>=1.0.0
 httpx>=0.27.0
 tzdata>=2024.1
 redis>=5.0
-
-# Парсер автобусов (меню «Автобусы» → mosgortrans)
+# Парсер автобусов (Яндекс.Карты, parser/mosgortrans-master)
 playwright>=1.40
-python-decouple>=3.8
+beautifulsoup4>=4.12.0
 loguru>=0.7

@@ -1,16 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Обработчики меню «Автобусы» — расписание с Яндекс.Карт (парсер mosgortrans).
+"""Обработчики меню «Автобусы» — красивые ссылки на Яндекс.Карты без парсера."""
 
-Для работы парсера нужны:
-- Playwright (pip install playwright && playwright install chromium) — управление браузером.
-Без установленного Chromium расписание с сайта подгружаться не будет.
-"""
-
-import asyncio
+import html
 import logging
-import sys
-import time
-from pathlib import Path
 
 from telegram import Update
 from telegram.error import BadRequest
@@ -22,95 +14,31 @@ from keyboards import buses_keyboard
 
 logger = logging.getLogger(__name__)
 
-# Направления: URL, подпись остановки, автобусы, маршрут «от — до», кол-во остановок по маршрутам
-# Кэш расписания по направлению: (direction -> (text, expires_at)), TTL 75 сек
-_BUS_SCHEDULE_CACHE: dict[str, tuple[str, float]] = {}
-_BUS_CACHE_TTL = 75
-
-
-def _get_cached_schedule(direction: str) -> str | None:
-    """Возвращает закэшированный текст расписания или None."""
-    now = time.time()
-    if direction not in _BUS_SCHEDULE_CACHE:
-        return None
-    text, expires_at = _BUS_SCHEDULE_CACHE[direction]
-    if now > expires_at:
-        del _BUS_SCHEDULE_CACHE[direction]
-        return None
-    return text
-
-
-def _set_cached_schedule(direction: str, text: str) -> None:
-    """Сохраняет результат в кэш только при успешном ответе."""
-    if not text or "не сконфигурирован" in text or "не найдено" in text:
-        return
-    _BUS_SCHEDULE_CACHE[direction] = (text, time.time() + _BUS_CACHE_TTL)
-
-
-BUS_DIRECTIONS = {
-    "home_office": {
-        "url": "https://yandex.ru/maps/213/moscow/stops/stop__9643158/?ll=37.663089%2C55.676860&tab=overview&z=18",
-        "message": "Метро Коломенская · 3A",
-        "buses": ["м19", "с820"],
-        "route_from_to": "От метро Коломенская до Электромеханического колледжа",
-        "stops": {"м19": 5, "с820": 5},
-    },
-    "office_home": {
-        # overview — та же вкладка, что и «К колледжу»; панель может появиться с задержкой
-        "url": "https://yandex.ru/maps/213/moscow/stops/stop__9645789/?ll=37.648561%2C55.665797&tab=overview&z=20",
-        "message": "Коломенский проезд, 8",
-        "buses": ["с820"],
-        "route_from_to": "От Коломенского проезда 8 до метро Коломенская",
-        "stops": {"с820": 4},
-    },
+# К колледжу — остановка «Метро Коломенская»
+TO_COLLEGE = {
+    "url": "https://yandex.ru/maps/213/moscow/stops/stop__9643158/?ll=37.663089%2C55.676860&tab=overview&z=18",
+    "message": "Метро Коломенская · 3A",
+    "buses": ["м19", "с820"],
+    "route_from_to": "От метро Коломенская до Электромеханический колледж",
+    "stops": {"м19": 5, "с820": 5},
 }
 
+# К метро — остановка «Коломенский проезд, 8». overview как у «К колледжу» — панель маршрутов грузится стабильнее, чем на tab=schedule.
+TO_METRO = {
+    "url": "https://yandex.ru/maps/213/moscow/stops/stop__9645789/?ll=37.648561%2C55.665797&tab=timetable&z=20",
+    "message": "Коломенский проезд, 8",
+    "buses": ["с820"],
+    "route_from_to": "От Коломенский проезд, 8 до метро Коломенская",
+    "stops": {"с820": 4},
+    "extra_wait_sec": 5,
+    "bus_aliases": {"с820": ["820"]},
+    "wait_timeout_ms": 90000,
+}
 
-def _fetch_bus_schedule_sync(direction: str) -> str:
-    """Синхронный вызов парсера mosgortrans (выполняется в executor).
-    Использует Playwright + Chromium.
-    """
-    root = Path(__file__).resolve().parent.parent
-    mosgortrans_root = root / "parser" / "mosgortrans-master"
-    if not mosgortrans_root.is_dir():
-        logger.warning("mosgortrans-master not found at %s", mosgortrans_root)
-        return ""
-
-    if str(mosgortrans_root) not in sys.path:
-        sys.path.insert(0, str(mosgortrans_root))
-
-    try:
-        from app.core.parse_web import WebParser  # type: ignore[reportMissingImports]
-
-        cfg = BUS_DIRECTIONS.get(direction)
-        if not cfg:
-            return ""
-        logger.info("Парсер автобусов: направление=%s, url=%s", direction, cfg["url"])
-        with WebParser.get_browser_context() as page:
-            result = WebParser.parse_yandex_maps(
-                url=cfg["url"],
-                message=cfg["message"],
-                buses=cfg["buses"],
-                page=page,
-            )
-        if "не сконфигурирован" in result:
-            logger.debug("Web parser not available, bus schedule from site disabled")
-        return result
-    except ImportError as e:
-        logger.warning("Playwright not installed or parse_web unavailable: %s", e)
-        return "не сконфигурирован"
-    except Exception as e:
-        err_msg = str(e).lower()
-        # Playwright/Chromium не установлен: "executable doesn't exist", "browser not found" и т.п.
-        if "executable" in err_msg or (
-            "browser" in err_msg
-            and ("not found" in err_msg or "doesn't exist" in err_msg or "not installed" in err_msg)
-        ):
-            logger.warning("Playwright Chromium not installed or not found: %s", e)
-            return "не сконфигурирован"
-        logger.exception("Bus schedule fetch failed: %s", e)
-        return ""
-
+BUS_DIRECTIONS = {
+    "home_office": TO_COLLEGE,
+    "office_home": TO_METRO,
+}
 
 async def buses_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Показать меню выбора направления (К колледжу / К метро)."""
@@ -144,7 +72,7 @@ async def buses_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
 
 async def buses_direction_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """По нажатию «К колледжу» или «К метро» — парсим расписание и отправляем."""
+    """По нажатию «К колледжу» или «К метро» — отправляем оформленное сообщение и ссылку на Я.Карты."""
     query = update.callback_query
     await query.answer()
     chat_id = update.effective_chat.id
@@ -168,70 +96,36 @@ async def buses_direction_callback(update: Update, context: ContextTypes.DEFAULT
         )
         return
 
-    loading_msg = await context.bot.send_message(chat_id, t(lang, "buses.loading"))
+    cfg = BUS_DIRECTIONS.get(direction, {})
 
-    # Парсинг в фоне — обработчик завершается сразу, чтобы не было "Query is too old"
-    async def _send_result_after_parse() -> None:
-        try:
-            cached = _get_cached_schedule(direction)
-            if cached is not None:
-                text = cached
-            else:
-                try:
-                    loop = asyncio.get_event_loop()
-                    text = await loop.run_in_executor(
-                        None,
-                        _fetch_bus_schedule_sync,
-                        direction,
-                    )
-                    if text and "не сконфигурирован" not in text and "не найдено" not in text:
-                        _set_cached_schedule(direction, text)
-                except Exception as e:
-                    logger.exception("Bus schedule task failed: %s", e)
-                    text = ""
+    url = cfg.get("url", "")
+    link_html = f'<a href="{html.escape(url)}">Посмотреть на Я.Картах</a>' if url else ""
 
-            cfg = BUS_DIRECTIONS.get(direction, {})
+    # Красивое статичное сообщение с описанием маршрута и ссылкой на карты
+    is_to_college = direction == "home_office"
+    title = ("🎓 " + t(lang, "buses.to_college")) if is_to_college else ("🚇 " + t(lang, "buses.to_metro"))
+    route = cfg.get("route_from_to", "")
+    stops = cfg.get("stops", {})
+    stops_lines: list[str] = []
+    for bus, n in stops.items():
+        if is_to_college:
+            stops_lines.append(f"  • {bus} — {n} ост. до колледжа")
+        else:
+            stops_lines.append(f"  • {bus} — {n} ост. до метро")
 
-            if not text or "не сконфигурирован" in text or "не найдено" in text:
-                url = cfg.get("url", "")
-                if text and "не сконфигурирован" in text:
-                    text = t(lang, "buses.error_no_driver")
-                elif text and "не найдено" in text:
-                    text = t(lang, "buses.error_try_again")
-                else:
-                    text = t(lang, "buses.error")
-                if url:
-                    text += f"\n\n{url}"
-            else:
-                msg = cfg.get("message", "")
-                if msg and text.startswith(msg):
-                    text = text[len(msg):].lstrip("\n")
-                title = t(lang, "buses.to_college") if direction == "home_office" else t(lang, "buses.to_metro")
-                route = cfg.get("route_from_to", "")
-                stops = cfg.get("stops", {})
-                stops_line = ", ".join(f"{bus} — {n} ост." for bus, n in stops.items())
-                header = f"{title}\n{route}\n{stops_line}\n\n"
-                text = header + text + "\n\n" + t(lang, "buses.footer_campus")
-
-            try:
-                await context.bot.delete_message(chat_id, loading_msg.message_id)
-            except BadRequest:
-                pass
-            await context.bot.send_message(
-                chat_id,
-                text,
-                reply_markup=buses_keyboard(lang),
-            )
-        except Exception as e:
-            logger.exception("Buses direction task crashed: %s", e)
-            try:
-                await context.bot.delete_message(chat_id, loading_msg.message_id)
-            except BadRequest:
-                pass
-            await context.bot.send_message(
-                chat_id,
-                t(lang, "buses.error"),
-                reply_markup=buses_keyboard(lang),
-            )
-
-    asyncio.create_task(_send_result_after_parse())
+    parts = [
+        html.escape(title),
+        "",
+        "🚶‍♂️ " + html.escape(route),
+        "",
+        "🚌 Остановки:",
+        *[html.escape(s) for s in stops_lines],
+        "",
+        "⏱️ Актуальное время прибытия автобусов смотрите в Яндекс.Картах по ссылке ниже.",
+        "",
+    ]
+    if link_html:
+        parts.append(link_html)
+    text = "\n".join(parts)
+    parse_mode = "HTML"
+    await context.bot.send_message(chat_id, text, parse_mode=parse_mode, reply_markup=buses_keyboard(lang))

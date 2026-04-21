@@ -24,7 +24,12 @@
     "to_metro": "Zur U-Bahn",
     "loading": "⏳ Fahrplan von Yandex Maps wird geladen...",
     "error": "⚠️ Fahrplan konnte nicht geladen werden. Verbindung prüfen oder Link manuell öffnen.",
-    "footer_campus": "📍 Derzeit gilt dieser Fahrplan für das Kolleg an der Akademika Millionščikova."
+    "footer_campus": "📍 Derzeit gilt dieser Fahrplan für das Kolleg an der Akademika Millionščikova.",
+    "stops_section": "🚌 Haltestellen:",
+    "stop_item": "• {bus} — {n} Haltestellen bis {dest}",
+    "stop_item_metro": "• {bus} — {n} Haltestellen bis U-Bahn",
+    "eta": "⏱️ Ankunft: ~{time} MSK",
+    "route_link": "🚌 Route in Yandex Maps"
   },
   "buttons": {
     "monday": "Mo",
@@ -40,8 +45,11 @@
     "building": "🏢 Campus",
     "group": "👥 Gruppe",
     "notifications": "🔔 Benachrichtigungen",
+    "reminder_interval": "⏱ Erinnerungsintervall",
     "language_selected": "🌐 Sprache geändert auf: {language}",
-    "choose_language": "🌐 Sprache wählen:"
+    "choose_language": "🌐 Sprache wählen:",
+    "choose_reminder_interval": "⏱ Wähle, wie viele Minuten vor Kursbeginn du eine Erinnerung bekommen möchtest:",
+    "reminder_interval_set": "✅ Erinnerungsintervall gesetzt: <b>{minutes}</b> Minuten vor Kursbeginn."
   },
   "schedule": {
     "choose_day": "📅 Wochentag wählen:",
@@ -81,9 +89,14 @@
     "sunday": "Sonntag"
   },
   "notifications": {
-    "enabled": "🔔 Benachrichtigungen aktiviert.\nDu erhältst Erinnerungen 10 Minuten vor Kursbeginn.",
-    "disabled": "🔕 Benachrichtigungen deaktiviert.\nErinnerungen 10 Minuten vor Kursbeginn werden nicht gesendet.",
-    "reminder": "⏰ Kurs beginnt in ~10 Minuten:\n📚 {subject}",
+    "enabled": "🔔 Benachrichtigungen aktiviert.\nDu erhältst Erinnerungen vor Kursbeginn.",
+    "disabled": "🔕 Benachrichtigungen deaktiviert.\nErinnerungen vor Kursbeginn werden nicht gesendet.",
+    "submenu_title": "🔔 Benachrichtigungen",
+    "submenu_status_on": "An. Erinnern <b>{minutes}</b> Min. vor Kurs.",
+    "submenu_status_off": "Aus. Intervall wählen und «An» tippen.",
+    "turn_on": "🔔 An",
+    "turn_off": "🔕 Aus",
+    "reminder": "⏰ Kurs beginnt bald:\n📚 {subject}",
     "room": "🚪 Raum {room}",
     "teacher": "👤 {teacher}",
     "time": "🕐 {start} – {end}"

@@ -25,7 +25,12 @@
     "loading": "⏳ Loading schedule from Yandex Maps...",
     "error": "⚠️ Failed to load schedule. Check your connection or open the link manually.",
     "error_no_driver": "⚠️ Schedule from the site is unavailable: browser (Playwright/Chromium) is not installed on the server. Run: pip install playwright && playwright install chromium. Open the link below for the current schedule.",
-    "footer_campus": "📍 For now this schedule is for the college at Akademika Millionščikova."
+    "footer_campus": "📍 For now this schedule is for the college at Akademika Millionščikova.",
+    "stops_section": "🚌 Stops:",
+    "stop_item": "• {bus} — {n} stops to {dest}",
+    "stop_item_metro": "• {bus} — {n} stops to metro",
+    "eta": "⏱️ ETA: ~{time} MSK",
+    "route_link": "🚌 route on Yandex Maps"
   },
   "buttons": {
     "monday": "Mon",
@@ -41,8 +46,11 @@
     "building": "🏢 Campus",
     "group": "👥 Group",
     "notifications": "🔔 Notifications",
+    "reminder_interval": "⏱ Reminder interval",
     "language_selected": "🌐 Language changed to: {language}",
-    "choose_language": "🌐 Choose language:"
+    "choose_language": "🌐 Choose language:",
+    "choose_reminder_interval": "⏱ Choose how many minutes before class you want to get a reminder:",
+    "reminder_interval_set": "✅ Reminder interval set to <b>{minutes}</b> minutes before class."
   },
   "schedule": {
     "choose_day": "📅 Choose day of the week:",
@@ -82,9 +90,14 @@
     "sunday": "Sunday"
   },
   "notifications": {
-    "enabled": "🔔 Notifications enabled.\nYou will receive reminders 10 minutes before class starts.",
-    "disabled": "🔕 Notifications disabled.\nReminders 10 minutes before class won't be sent.",
-    "reminder": "⏰ Class starts in ~10 minutes:\n📚 {subject}",
+    "enabled": "🔔 Notifications enabled.\nYou will receive reminders before class starts.",
+    "disabled": "🔕 Notifications disabled.\nReminders before class won't be sent.",
+    "submenu_title": "🔔 Notifications",
+    "submenu_status_on": "On. Remind <b>{minutes}</b> min before class.",
+    "submenu_status_off": "Off. Choose interval and tap «Turn on».",
+    "turn_on": "🔔 Turn on",
+    "turn_off": "🔕 Turn off",
+    "reminder": "⏰ Class starts soon:\n📚 {subject}",
     "room": "🚪 Room {room}",
     "teacher": "👤 {teacher}",
     "time": "🕐 {start} – {end}"

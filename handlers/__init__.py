@@ -16,7 +16,14 @@ from handlers.menu import menu, main_menu_callback, back_callback, schedule_day_
 from handlers.schedule import schedule, schedule_by_day_callback
 from handlers.reminders import send_lesson_reminders
 from handlers.errors import error_handler
-from handlers.settings import settings_menu, settings_callback, language_callback, back_to_settings
+from handlers.settings import (
+    settings_menu,
+    settings_callback,
+    language_callback,
+    back_to_settings,
+    notifications_submenu_callback,
+)
+from handlers.buses import buses_menu, buses_direction_callback
 
 __all__ = [
     "start",
@@ -40,4 +47,7 @@ __all__ = [
     "settings_callback",
     "language_callback",
     "back_to_settings",
+    "notifications_submenu_callback",
+    "buses_menu",
+    "buses_direction_callback",
 ]

@@ -37,13 +37,39 @@ class I18n:
     
     def _load_translations(self):
         """Загрузка всех файлов переводов из директории."""
+        # Проверяем существование директории locales
+        if not self.locales_dir.exists():
+            logger.error(f"Директория переводов не найдена: {self.locales_dir}")
+            logger.error("Создайте директорию locales с файлами переводов (ru.json, en.json и т.д.)")
+            # Создаём пустой словарь для дефолтного языка
+            self.translations[DEFAULT_LANGUAGE] = {}
+            return
+        
+        if not self.locales_dir.is_dir():
+            logger.error(f"Путь {self.locales_dir} существует, но не является директорией")
+            self.translations[DEFAULT_LANGUAGE] = {}
+            return
+        
         for lang_code in SUPPORTED_LANGUAGES.keys():
             locale_file = self.locales_dir / f"{lang_code}.json"
             if locale_file.exists():
                 try:
                     with open(locale_file, 'r', encoding='utf-8') as f:
-                        self.translations[lang_code] = json.load(f)
-                    logger.info(f"Загружен язык: {lang_code}")
+                        data = json.load(f)
+                    
+                    # Валидация: проверяем, что загружен словарь
+                    if not isinstance(data, dict):
+                        logger.error(f"Файл {locale_file} содержит некорректные данные (ожидается объект JSON)")
+                        continue
+                    
+                    # Базовая проверка структуры: должны быть хотя бы некоторые ключи
+                    if not data:
+                        logger.warning(f"Файл {locale_file} пуст")
+                    
+                    self.translations[lang_code] = data
+                    logger.info(f"Загружен язык: {lang_code} ({len(data)} ключей верхнего уровня)")
+                except json.JSONDecodeError as e:
+                    logger.error(f"Ошибка парсинга JSON в {locale_file}: {e}")
                 except Exception as e:
                     logger.error(f"Ошибка загрузки языка {lang_code}: {e}")
             else:
@@ -98,15 +124,6 @@ class I18n:
                 return value
         
         return value
-    
-    def get_languages_list(self) -> Dict[str, str]:
-        """
-        Получить список поддерживаемых языков.
-        
-        Returns:
-            Словарь {код: название}
-        """
-        return SUPPORTED_LANGUAGES.copy()
 
 
 # Глобальный экземпляр для использования в хендлерах
