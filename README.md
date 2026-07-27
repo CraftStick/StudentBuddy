@@ -37,3 +37,13 @@ python3 bot.py
 ```
 
 Подробнее: установка, Docker, деплой и переменные окружения — **[docs/README.md](docs/README.md)**.
+
+---
+
+<div align="center">
+
+**If you found this useful, consider leaving a ⭐ — it helps a lot!**
+
+**Если было полезно — поставь ⭐, это очень помогает!**
+
+</div>
