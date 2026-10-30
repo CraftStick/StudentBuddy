@@ -1,24 +1,26 @@
 # StudentBuddy
 
-Telegram-бот для студентов: **расписание**, **замены преподавателей**, **напоминания перед парами** и **расписание автобусов** — в одном чате.
+[English](README.md) · [Русский](README.ru.md)
 
-## Что умеет бот
+A Telegram bot for students: **class schedule**, **teacher substitutions**, **reminders before classes** and **bus schedules** — all in one chat. The bot's own interface supports Russian, English, German, Norwegian, Swedish and Finnish.
 
-- **Онбординг** — после `/start` выбирается корпус и группа; формат группы проверяется через API расписания.
-- **Расписание** — команда `/schedule` или кнопка в меню: день недели, пары, при необходимости замены на выбранный день.
-- **Напоминания** — заранее (по умолчанию за ~10 минут до начала пары) сообщение с предметом, аудиторией и преподавателем; можно отключить в настройках.
-- **Автобусы** — направления вроде «к учебному корпусу» / «к метро» (парсинг маршрутов; для части сценариев нужны Playwright/Chromium или настроенный Selenium — см. [docs/README.md](docs/README.md)).
-- **Настройки** — язык интерфейса (**ru**, **en**, **de**, **no**, **sv**, **fi**), смена корпуса и группы, включение и выключение уведомлений.
+## Features
 
-Данные пользователей хранятся в **SQLite**; файл БД и persistence создаются при работе бота (пути задаются в `.env`).
+- **Onboarding** — after `/start`, the user picks their campus and group; the group format is validated against the schedule API.
+- **Schedule** — the `/schedule` command or a menu button shows the day's classes, with substitutions for the selected day where needed.
+- **Reminders** — a message sent ahead of time (by default ~10 minutes before class) with the subject, room and teacher; can be turned off in settings.
+- **Buses** — directions such as "to the campus" / "to the metro" (route parsing; some scenarios need Playwright/Chromium or a configured Selenium — see [docs/README.md](docs/README.md)).
+- **Settings** — interface language (**ru**, **en**, **de**, **no**, **sv**, **fi**), changing campus and group, enabling and disabling notifications.
 
-## Технологии
+User data is stored in **SQLite**; the database file and persistence are created when the bot runs (paths are set in `.env`).
+
+## Tech Stack
 
 - **Python 3.10+**, [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot) (polling).
-- HTTP-клиент **httpx** для API расписания и замен.
-- Опционально **Redis** для общего кэша расписания между процессами (см. `.env.example`).
+- **httpx** as the HTTP client for the schedule and substitutions API.
+- Optional **Redis** for a shared schedule cache between processes (see `.env.example`).
 
-## Быстрый старт
+## Getting Started
 
 ```bash
 git clone https://github.com/CraftStick/StudentBuddy.git
@@ -29,21 +31,11 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-В `.env` обязательно укажи **`BOT_TOKEN`** (от [@BotFather](https://t.me/BotFather)) и **`SCHEDULE_API_TOKEN`** (токен API расписания). Затем:
+In `.env`, make sure to set **`BOT_TOKEN`** (from [@BotFather](https://t.me/BotFather)) and **`SCHEDULE_API_TOKEN`** (the schedule API token). Then:
 
 ```bash
 python3 health_check.py
 python3 bot.py
 ```
 
-Подробнее: установка, Docker, деплой и переменные окружения — **[docs/README.md](docs/README.md)**.
-
----
-
-<div align="center">
-
-**If you found this useful, consider leaving a ⭐ — it helps a lot!**
-
-**Если было полезно — поставь ⭐, это очень помогает!**
-
-</div>
+For more detail — installation, Docker, deployment and environment variables — see **[docs/README.md](docs/README.md)** (in Russian).
